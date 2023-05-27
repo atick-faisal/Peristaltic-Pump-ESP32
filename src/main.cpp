@@ -1,3 +1,18 @@
+/*
+Copyright [yyyy] [name of copyright owner]
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
+*/
+
 #include <Arduino.h>
 
 const char *DELIMETER = ",";
@@ -11,6 +26,9 @@ const uint8_t BUFFER_SIZE = 255;
 const uint32_t FLOW_PERIOD = 10000;
 const uint32_t WAIT_THRESHOLD = 3000;
 uint8_t flowProfile[N_DATA_POINTS];
+char buffer[BUFFER_SIZE];
+bool motorFlag = false;
+uint8_t count = 0;
 
 void initializeFlowProfile();
 uint8_t getSpeed(uint8_t step, uint8_t n_steps);
@@ -30,12 +48,6 @@ void setup() {
     ledcAttachPin(MOTOR_PIN, PWM_CHANNEL);
     initializeFlowProfile();
 }
-
-uint8_t count = 0;
-uint8_t commaCount = 0;
-char buffer[BUFFER_SIZE];
-char temp[BUFFER_SIZE];
-bool motorFlag = false;
 
 void loop() {
     if (Serial.available()) {
